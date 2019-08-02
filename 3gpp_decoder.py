@@ -1,3 +1,5 @@
+#!/usr/bin/python2
+
 import sys
 import tempfile
 import re
@@ -5,6 +7,7 @@ import os
 import argparse
 
 all_decode_type = {
+"ip":"IP",
 "ranap":"RANAP",
 "s1ap":"S1AP",
 "x2ap":"X2AP",
@@ -80,6 +83,10 @@ all_decode_type = {
 "rrc.ue_radio_access_cap_info":"3G RRCUE-RadioAccessCapabilityInfo",
 "rrc.s_to_trnc_cont":"3G RRCToTargetRNC-Container",
 "rrc.t_to_srnc_cont":"3G RRCTargetRNC-ToSourceRNC-Container",
+"lte-rrc.ue_radio_access_cap_info":"4G UERadioAccessCapabilityInformation",
+"lte-rrc.ue_radio_access_cap_info.nb":"4G UERadioAccessCapabilityInformation-NB",
+"lte-rrc.ue_radio_paging_info":"4G UERadioPagingInformation",
+"lte-rrc.ue_radio_paging_info.nb":"4G UERadioPagingInformation-NB",
 "lte-rrc.bcch.bch":"4G BCCH-BCH-Message",
 "lte-rrc.bcch.dl.sch":"4G BCCH-DL-SCH-Message",
 "lte-rrc.bcch.dl.sch.br":"4G BCCH-DL-SCH-Message-BR",
@@ -104,6 +111,7 @@ all_decode_type = {
 "lte-rrc.sc.mcch.nb":"4G SC-MCCH-Message-NB",
 "lte-rrc.bcch.bch.mbms":"4G BCCH-BCH-Message-MBMS",
 "lte-rrc.bcch.dl.sch.mbms":"4G BCCH-DL-SCH-Message-MBMS",
+"nas-eps":"NAS",
 }
 
 def print_decode_type():
