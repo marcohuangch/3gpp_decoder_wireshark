@@ -1,16 +1,25 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 
 import sys
 import tempfile
 import re
-import os
+import subprocess
 import argparse
+
+# Linux
+TEXT2PCAP_BIN='text2pcap'
+WIRESHARK_BIN='wireshark'
+
+# Windows Wireshark Path
+#TEXT2PCAP_BIN='D:\\Program Files\\Wireshark\\text2pcap.exe'
+#WIRESHARK_BIN='D:\\Program Files\\Wireshark\\Wireshark.exe'
 
 all_decode_type = {
 "ip":"IP",
 "ranap":"RANAP",
 "s1ap":"S1AP",
 "x2ap":"X2AP",
+"f1ap":"F1AP",
 "rlc-lte":"4G RLC",
 "mac-lte":"4G MAC",
 "rrc.dl.dcch":"3G RRCDL-DCCH-Message",
@@ -115,9 +124,9 @@ all_decode_type = {
 }
 
 def print_decode_type():
-    print "Supported Decoder:"
+    print("Supported Decoder:")
     for key in all_decode_type.keys():
-        print key + " - " + all_decode_type[key]
+        print(key + " - " + all_decode_type[key])
 
 class MyAction(argparse._StoreTrueAction):
     def __call__(self, parser, values, namespace, option_string=None):
@@ -140,33 +149,35 @@ if "__main__" == __name__:
     hex_string = args.hex_string
 
     if decode_type not in all_decode_type.keys():
-        print "Decode type not supported"
+        print("Decode type not supported")
         sys.exit()
 
     if hex_string == '':
-        print "No hex string input"
+        print("No hex string input")
         sys.exit()
 
     re_result, number = re.subn("([a-fA-F0-9][a-fA-F0-9])", " \\1", hex_string)
 
     re_result = re_result + " "
 
-    #print 're_result:', re_result
+    print('re_result:', re_result)
 
-    temp1 = tempfile.NamedTemporaryFile()
-    temp2 = tempfile.NamedTemporaryFile()
+    temp1 = tempfile.NamedTemporaryFile(mode="w+t", delete=False)
+    temp2 = tempfile.NamedTemporaryFile(mode="w+b", delete=False)
     try:
-        #print 'temp1:', temp1
-        #print 'temp1.name:', temp1.name
-        #print 'temp2.name:', temp2.name
-        temp1.write("000000 " + re_result)
+        print('temp1.name:', temp1.name)
+        print('temp2.name:', temp2.name)
+        temp1.write("000000")
+        temp1.write(re_result)
         temp1.flush()
+        
+        subprocess.run([TEXT2PCAP_BIN, "-l 147", temp1.name, temp2.name])
 
-        os.system("text2pcap -l 147 " + temp1.name + " " + temp2.name)
-        os.system("wireshark -o \"uat:user_dlts:\\\"User 0 (DLT=147)\\\",\\\"" + decode_type + "\\\",\\\"0\\\",\\\"\\\",\\\"0\\\",\\\"\\\"\"  " + temp2.name)
-
+        subprocess.run([WIRESHARK_BIN, '-o', 'uat:user_dlts:\"User 0 (DLT=147)\",\"' + decode_type + '\",\"0\",\"\",\"0\",\"\"', temp2.name])
+        
     finally:
         temp1.close()
         temp2.close()
+
 
 
