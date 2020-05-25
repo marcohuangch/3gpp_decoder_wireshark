@@ -121,6 +121,19 @@ all_decode_type = {
 "lte-rrc.bcch.bch.mbms":"4G BCCH-BCH-Message-MBMS",
 "lte-rrc.bcch.dl.sch.mbms":"4G BCCH-DL-SCH-Message-MBMS",
 "nas-eps":"NAS",
+"nr-rrc.ue_radio_paging_info":"NR RRC UERadioPagingInformation",
+"nr-rrc.ue_radio_access_cap_info":"NR UERadioAccessCapabilityInformation",
+"nr-rrc.bcch.bch":"NR BCCH-BCH-Message",
+"nr-rrc.bcch.dl.sch":"NR BCCH-DL-SCH-Message",
+"nr-rrc.dl.ccch":"NR DL-CCCH-Message",
+"nr-rrc.dl.dcch":"NR DL-DCCH-Message",
+"nr-rrc.pcch":"NR PCCH-Message",
+"nr-rrc.ul.ccch":"NR UL-CCCH-Message",
+"nr-rrc.ul.ccch1":"NR UL-CCCH1-Message",
+"nr-rrc.ul.dcch":"NR RRC UL-DCCH-Message",
+"nr-rrc.rrc_reconf":"NR RRC RRCReconfiguration",
+"nr-rrc.ue_mrdc_cap":"NR RRC UE-MRDC-Capability",
+"nr-rrc.ue_nr_cap":"NR RRC UE-NR-Capability",
 }
 
 def print_decode_type():
